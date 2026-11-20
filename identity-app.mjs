@@ -1,9 +1,9 @@
 import { Field } from "./engine.mjs";
-import { makeWorld, survival, memoryExperiment } from "./identity-lab.mjs";
+import { makeWorld, survival, memoryExperiment, localityExperiment } from "./identity-lab.mjs";
 
 const $=id=>document.getElementById(id);
 const colors={cyan:"#76d4e9",gold:"#e9bc76",pink:"#f096af",violet:"#b8aaff",muted:"#96a9bd"};
-let lastSurvival=null,lastMemory=null,busy=false;
+let lastSurvival=null,lastMemory=null,lastLocality=null,busy=false;
 const canvases=["shamCanvas","challengeCanvas"].map(id=>$(id));
 function fixed(v,n=3){return Number.isFinite(v)?v.toFixed(n):"—";}
 function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
@@ -59,7 +59,7 @@ function chart(canvas,series,titleColors,options={}){
   c.fillText("STEPS AFTER EVENT →",right-70,H-5);
   c.save();c.beginPath();c.rect(left,top,right-left,bottom-top);c.clip();
   for(const [i,ser] of series.entries()){
-    c.beginPath();c.strokeStyle=ser.color||titleColors[i]||colors.cyan;c.lineWidth=2.6;
+    c.beginPath();c.strokeStyle=ser.color||titleColors[i]||colors.cyan;c.lineWidth=2.6;c.setLineDash(ser.dash?[9,6]:[]);
     ser.data.forEach((p,k)=>{
       const x=left+(right-left)*p.x/xmax;
       const y=bottom-(bottom-top)*clamp(p.y/ymax,0,1);
@@ -67,12 +67,13 @@ function chart(canvas,series,titleColors,options={}){
     });
     c.stroke();
   }
-  c.restore();
+  c.restore();c.setLineDash([]);
 }
 function setBusy(status) {
   busy=status;
   $("surviveBtn").disabled=status;
   $("memoryBtn").disabled=status;
+  $("localityBtn").disabled=status;
 }
 function updateConclusion(){
   const box=$("liveVerdict");
@@ -101,6 +102,17 @@ function updateConclusion(){
       : "The graded clock did not increase the integrated relative response compared with the same uniform-clock defect.");
     const err=linear?.relative.core;
     paragraphs.push("Linear control ratio: "+(err===null?"below response threshold":fixed(err,6))+". One trajectory per condition: no statistical claim.");
+  }
+
+  if(lastLocality){
+    const vac=lastLocality.results.find(r=>r.id==="vacuum");
+    const def=lastLocality.results.find(r=>r.id==="uniform");
+    const d=def.swappedAB.donorLike,v=vac.swappedAB.donorLike;
+    paragraphs.push(d && !v
+      ?"For this specific transplant, swapping the core makes the defect world's response more like the donor history, while the vacuum control does not show the same classification. A localized causal effect is plausible, but the cut is artificial."
+      :d && v
+      ?"Both the vortex and nonlinear vacuum become donor-like under the same core-region swap. This is not defect-specific evidence of internal memory."
+      :"Under the selected transplant and readout, the defect did not clearly make the probe respond like the donor core. The external field or intervention transients may dominate.");
   }
   box.replaceChildren();
   const label=document.createElement("span");label.textContent="YOUR WORLD'S VERDICT";
@@ -192,10 +204,61 @@ $("memoryBtn").onclick=async()=>{
   }catch(e){console.error(e);$("memoryStatus").textContent="Experiment failed: "+e.message;}
   finally{setBusy(false);}
 };
-for(const [id,output] of [["survivePulse","survivePulseVal"],["surviveClock","surviveClockVal"],["wait","waitVal"],["memoryClock","memoryClockVal"]]){
-  $(id).addEventListener("input",()=>$(output).textContent=$(id).value);
+
+function renderLocality(result){
+  const vacuum=result.results.find(x=>x.id==="vacuum");
+  const defect=result.results.find(x=>x.id==="uniform");
+  chart($("localityGraph"),[
+    {data:defect.trace.map(x=>({x:x.t,y:x.h1Recipient})),color:colors.cyan},
+    {data:defect.trace.map(x=>({x:x.t,y:x.h1Donor})),color:colors.gold},
+    {data:vacuum.trace.map(x=>({x:x.t,y:x.h1Recipient})),color:colors.cyan,dash:true},
+    {data:vacuum.trace.map(x=>({x:x.t,y:x.h1Donor})),color:colors.gold,dash:true}
+  ],[]);
+  const tbody=$("localityRows");tbody.replaceChildren();
+  for(const r of result.results){
+    const tr=document.createElement("tr");
+    function description(x){
+      return (x.meaningful?(x.donorLike?"DONOR-LIKE":"RECIPIENT-LIKE"):"UNRESOLVED")+
+        " (donor "+fixed(x.donorDistance,4)+", host "+fixed(x.recipientDistance,4)+")";
+    }
+    for(const value of [r.label,fixed(r.baseline,5),description(r.swappedAB),description(r.swappedBA)]){
+      const td=document.createElement("td");td.textContent=value;tr.appendChild(td);
+    }
+    tbody.appendChild(tr);
+  }
+  const v=vacuum.swappedAB,d=defect.swappedAB;
+  const twin=d.donorLike && defect.swappedBA.donorLike;
+  const same=v.donorLike && vacuum.swappedBA.donorLike;
+  let story="The surgery exchanged field values AND momenta in a smooth central disk. ";
+  if(twin&&!same)story+="Both vortex hybrids moved toward their core donor's response, while the vacuum control did not do so symmetrically. This suggests a possible defect-associated causal role, but not exclusive or natural internal memory.";
+  else if(twin&&same)story+="Both vortex and vacuum hybrids became donor-like. Region-swapping effects therefore cannot be credited uniquely to the vortex.";
+  else story+="The vortex hybrids did not both become donor-like. At this setting, the internal-region swap does not demonstrate a transferable particle history.";
+  story+=" The interface is an imposed intervention, and the comparison needs radius, waiting-time and mesh sweeps.";
+  $("localityInterpretation").textContent=story;
+}
+$("localityBtn").onclick=async()=>{
+  if(busy)return;
+  setBusy(true);$("localityStatus").textContent="Preparing paired trajectories and blending the regions...";
+  try{
+    const settings={seed:$("localitySeed").value,
+      radius:Number($("localityRadius").value),
+      wait:Number($("localityWait").value),
+      observe:120,readStep:8};
+    const result=await localityExperiment(settings,(msg,fraction)=>{
+      $("localityStatus").textContent=msg+" · "+Math.round(fraction*100)+"%";
+    });
+    lastLocality=result;renderLocality(result);updateConclusion();
+    $("localityStatus").textContent="Both vacuum and vortex core swaps completed; compare recipient-versus-donor distances.";
+  }catch(err){console.error(err);$("localityStatus").textContent="Intervention failed: "+err.message;}
+  finally{setBusy(false);}
+};
+
+for(const [id,output] of [["survivePulse","survivePulseVal"],["surviveClock","surviveClockVal"],["wait","waitVal"],["memoryClock","memoryClockVal"],["localityRadius","localityRadiusVal"],["localityWait","localityWaitVal"]]){
+  $(id).addEventListener("input",()=>$(output).textContent=$(id).value+(id==="localityRadius"?" fraction":""));
+  if(id==="localityRadius")$(id).addEventListener("input",()=>$(output).textContent=Math.round(100*Number($(id).value))+"%");
 }
 const initial=makeWorld({seed:"single",grid:56},{clock:true,linear:false});
 render(initial,canvases[0]);render(initial,canvases[1]);
 chart($("survivalGraph"),[],[]);
 chart($("memoryGraph"),[],[]);
+chart($("localityGraph"),[],[]);
