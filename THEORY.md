@@ -99,3 +99,8 @@ The browser's first-pass benchmark is intentionally deterministic, small (64×64
 - S. Coleman, *Q-balls*, Nuclear Physics B **262** (1985), 263–283.
 - M. S. Volkov and E. Wöhnert, *Spinning Q-balls*, Physical Review D **66**, 085003 (2002), https://doi.org/10.1103/PhysRevD.66.085003 — a different, nonrenormalizable interaction.
 - Classic global-vortex / topological-defect mathematics; no assertion that this model matches fundamental Standard Model gauge dynamics.
+
+
+## 6. The identity question is a stronger test
+
+See [IDENTITY.md](IDENTITY.md) and the [interactive chapter](https://anttiluode.github.io/ComplexClockfield/identity.html). A topological invariant, a nonlinear history-dependent response, and a causally local memory state are three **different observables**. A pinned boundary can preserve net winding without making a free particle. A nonlinear vacuum can give an AB/BA-dependent response without any vortex. Even a state-swapping intervention can be reproduced in the vacuum control. The chapter distinguishes these claims and reports negative findings.
