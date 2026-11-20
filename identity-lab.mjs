@@ -198,3 +198,84 @@ export async function memoryExperiment(settings={},update=null) {
     disclaimer:"Single deterministic protocol. A nonlinear vacuum can retain history; no measurement yet proves memory resides inside a defect."
   };
 }
+
+
+// Surgical locality test: do not confuse it with a natural physical operation.
+// A smooth blending window swaps complex field AND conjugate momenta near the core.
+export function transplant(recipient, donor, fraction=.17) {
+  if(recipient.n!==donor.n)throw new Error("Transplant worlds must share a grid.");
+  const out=recipient.clone(),n=out.n;
+  const radius=Math.max(2,n*fraction),inner=radius*.70;
+  for(let y=1;y<n-1;y++)for(let x=1;x<n-1;x++){
+    const r=Math.hypot(x-(n-1)/2,y-(n-1)/2);
+    if(r>=radius)continue;
+    const k=r<=inner?1:(1-(r-inner)/(radius-inner));
+    const i=y*n+x;
+    for(const key of ["u","v","pu","pv"])
+      out[key][i]=recipient[key][i]*(1-k)+donor[key][i]*k;
+  }
+  // Static clock masses are the same between matched history twins. Their
+  // geometries came from the same seed, but their live structure need not be.
+  return out;
+}
+export async function localityExperiment(settings={},update=null) {
+  const opts={...DEFAULT_IDENTITY,...settings};
+  const results=[];
+  for(const [j,condition] of [
+    {id:"vacuum",label:"Nonlinear vacuum",vacuum:true,linear:false,clock:false},
+    {id:"uniform",label:"Vortex, uniform clock",vacuum:false,linear:false,clock:false}
+  ].entries()){
+    if(update)update("Preparing "+condition.label,j/2);
+    const ab=await historyBranch(opts,condition,"AB");
+    const ba=await historyBranch(opts,condition,"BA");
+    const swapAB=transplant(ab,ba,opts.radius??.17);
+    const swapBA=transplant(ba,ab,opts.radius??.17);
+    const fields={AB:ab,BA:ba,ABwithBAcore:swapAB,BAwithABcore:swapBA};
+    const forks={};
+    for(const [name,w] of Object.entries(fields)){
+      forks[name]={probed:w.clone(),sham:w.clone()};
+      forks[name].probed.pulse(opts.grid*.36,opts.grid*.5,"C",opts.pulse,3);
+    }
+    const sums={ABwithBAcore:{recipient:0,donor:0},
+      BAwithABcore:{recipient:0,donor:0}};
+    let baselinePower=0;
+    const calc=(A,B)=>{
+      const x=forks[A],y=forks[B];
+      return differentialResponse(x.probed,x.sham,y.probed,y.sham,"core",
+        condition.vacuum?"vacuum":opts.seed).powerDifference;
+    };
+    const trace=[];
+    const steps=opts.observe;
+    for(let t=1;t<=steps;t++){
+      for(const pair of Object.values(forks)){pair.probed.step();pair.sham.step();}
+      if(t%opts.readStep===0 || t===steps){
+        const base=calc("AB","BA");
+        const h1a=calc("ABwithBAcore","AB");
+        const h1b=calc("ABwithBAcore","BA");
+        const h2a=calc("BAwithABcore","BA");
+        const h2b=calc("BAwithABcore","AB");
+        baselinePower+=base;
+        sums.ABwithBAcore.recipient+=h1a;sums.ABwithBAcore.donor+=h1b;
+        sums.BAwithABcore.recipient+=h2a;sums.BAwithABcore.donor+=h2b;
+        trace.push({t,base:Math.sqrt(base),h1Recipient:Math.sqrt(h1a),
+          h1Donor:Math.sqrt(h1b),h2Recipient:Math.sqrt(h2a),h2Donor:Math.sqrt(h2b)});
+      }
+      if(t%24===0){if(update)update("Probing "+condition.label+": "+t+"/"+steps,
+        (j+t/steps)/2);await waitFrame();}
+    }
+    const ratio=(s)=>({
+      recipientDistance:Math.sqrt(s.recipient),
+      donorDistance:Math.sqrt(s.donor),
+      donorLike:s.donor<s.recipient,
+      // Stable for extremely small baseline: do not claim informative surgery.
+      meaningful:baselinePower>1e-10
+    });
+    results.push({id:condition.id,label:condition.label,
+      baseline:Math.sqrt(baselinePower),
+      swappedAB:ratio(sums.ABwithBAcore),
+      swappedBA:ratio(sums.BAwithABcore),
+      trace});
+  }
+  return {settings:opts,results,
+    caveat:"Core transplantation is an artificial intervention. Its interface can create spurious waves; matched vacuum controls and repeat trials are essential."};
+}
