@@ -1,8 +1,8 @@
 # First controlled result — 2026-11-20
 
-This report records a **single deterministic 64×64 numerical sweep**, with no multiple seeds, no statistical uncertainty, and no empirical webcam data. The exact controls and timings are in \`scripts/abba.mjs\`; run \`node scripts/abba.mjs --json\` to reproduce.
+This report records a **single deterministic 64×64 numerical sweep**, with no multiple seeds, no statistical uncertainty, and no empirical webcam data. The exact controls and timings are in `scripts/abba.mjs`; run `node scripts/abba.mjs --json` to reproduce.
 
-All worlds receive A and B at the **same location** but with different complex-momentum directions, in reversed temporal order. After a blank period, each history is cloned. One copy receives C and the other receives nothing. The future difference caused by C, \`R = probed - sham\`, is measured in the right-hand region. Compare \`R_AB\` and \`R_BA\`; also report the state difference just before C.
+All worlds receive A and B at the **same location** but with different complex-momentum directions, in reversed temporal order. After a blank period, each history is cloned. One copy receives C and the other receives nothing. The future difference caused by C, `R = probed - sham`, is measured in the right-hand region. Compare `R_AB` and `R_BA`; also report the state difference just before C.
 
 Parameters: N=64, dt=0.11, lambda=0.23, damping=0.028, bending=0, nonlinear-gradient softness=0.15, graded clock strength=12, static effective mass; 72 warmup steps, 19 between A and B, 82 blank steps, 115 steps after probe C. For the linear vacuum, the nonlinear potential is replaced by the vacuum linearization and gradient softness is disabled. All probes match across history conditions.
 
