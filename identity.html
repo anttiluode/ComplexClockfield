@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080e17">
+<title>What Makes a Thing? — ComplexClockfield</title>
+<meta name="description" content="An interactive field experiment: can a vortex preserve its topological identity and carry an observable history?">
+<link rel="stylesheet" href="./identity.css"></head><body>
+<div class="site">
+<header class="top">
+  <a href="./" class="back">← COMPLEX<span>CLOCKFIELD</span></a>
+  <span>FIELD NOTE / NOV 20 2026 / EXPERIMENT 02</span>
+  <a href="https://github.com/anttiluode/ComplexClockfield" target="_blank" rel="noopener">SOURCE ↗</a>
+</header>
+<section class="hero">
+  <p class="eyebrow">A QUESTION FROM THE EDGE OF A SMALL UNIVERSE</p>
+  <h1>What makes<br><em>a thing?</em></h1>
+  <p class="question">“What is a thing, if not a pattern that manages to remain itself while the world changes around it?”</p>
+  <div class="answer"><span>WORKING ANSWER</span>
+   <p>Not a particular arrangement of pixels. A candidate <b>thing</b> is a localized pattern with a <b>traceable invariant</b> that can survive disturbance. A <b>stateful thing</b> goes further: its history changes how it responds to a new, identical encounter.</p>
+   <small>These are operational criteria, not a definition of consciousness, matter, or fundamental particles.</small>
+  </div>
+</section>
+<nav class="chapter-nav">
+  <a href="#survival"><b>01</b> SURVIVE <small>Does the defect remain?</small></a>
+  <a href="#memory"><b>02</b> REMEMBER <small>Does the past matter?</small></a>
+  <a href="#answer"><b>03</b> ANSWER <small>What did we learn?</small></a>
+</nav>
+<section id="survival" class="chapter">
+ <div class="chapter-head"><span class="chapter-no">01 / SURVIVE</span><h2>Deform it. Does it remain itself?</h2>
+  <p>A field can look different at every instant while the phase still winds around a core. We compare the same initialized world <i>with</i> and <i>without</i> one external pulse.</p></div>
+ <div class="controls">
+  <label>World <select id="surviveSeed"><option value="single">One +1 vortex</option><option value="pair">Vortex + antivortex</option><option value="quartet">Four defects</option><option value="vacuum">Empty vacuum control</option></select></label>
+  <label>Pulse <span id="survivePulseVal">0.34</span><input id="survivePulse" type="range" min=".06" max=".95" step=".03" value=".34"></label>
+  <label>Local clock κ <span id="surviveClockVal">12</span><input id="surviveClock" type="range" min="0" max="40" step="2" value="12"></label>
+  <button class="run" id="surviveBtn">▶ Challenge the world</button>
+ </div>
+ <div id="surviveStatus" class="status">Run the disturbance test. Outputs are computed, not scripted.</div>
+ <div class="two-worlds">
+  <figure><div class="figtop"><span>A / UNTOUCHED</span><small>The sham world</small></div><canvas id="shamCanvas" width="56" height="56"></canvas><figcaption>Same initial field; no pulse. This is the counterfactual.</figcaption></figure>
+  <figure><div class="figtop"><span>B / DISTURBED</span><small>The challenged world</small></div><canvas id="challengeCanvas" width="56" height="56"></canvas><figcaption>Same world, then an identical localized impulse.</figcaption></figure>
+ </div>
+ <div class="metrics">
+  <div><span>NET WINDING, BEFORE → AFTER</span><strong id="survivalCharge">—</strong></div>
+  <div><span>SAME-SIGN CORE DETECTED?</span><strong id="survivalCore">—</strong></div>
+  <div><span>FIELD DISTURBANCE (RMS)</span><strong id="survivalDifference">—</strong></div>
+  <div><span>CORE DISPLACEMENT</span><strong id="survivalMovement">—</strong></div>
+ </div>
+ <div class="graph-card"><div class="graph-title">A wave passes through a constrained field <small>Blue: deviation from sham · Coral: core movement (pixels)</small></div><canvas id="survivalGraph" width="1000" height="194"></canvas></div>
+ <div class="interpretation" id="survivalInterpretation"><b>The test asks:</b> Can the field change substantially while the vortex’s winding identity survives?</div>
+ <p class="caveat"><b>Boundary caveat:</b> the simulation pins the outer phase field. That constrains total winding. Retaining net topological charge is therefore not yet proof of a freely moving, self-maintaining particle. Nearest-core tracking is approximate, especially in multi-defect scenes.</p>
+</section>
+<section id="memory" class="chapter">
+ <div class="chapter-head"><span class="chapter-no">02 / REMEMBER</span><h2>Change its past. Ask it the same question.</h2>
+  <p>Two histories, identical ingredients, different order. The next wave is <b>C</b>. Does C encounter the same world after AB as after BA? We remove each world's no-C future before comparing.</p></div>
+ <div class="sequence"><div><span>WORLD 1</span><b class="a">A</b><i>→</i><b class="b">B</b><i>→</i><b class="gap">silence</b><i>→</i><b class="c">C / sham</b></div>
+ <div><span>WORLD 2</span><b class="b">B</b><i>→</i><b class="a">A</b><i>→</i><b class="gap">silence</b><i>→</i><b class="c">C / sham</b></div></div>
+ <div class="equation">R<sub>AB</sub> = Ψ<sub>AB+C</sub> − Ψ<sub>AB+sham</sub>
+ <span>R<sub>BA</sub> = Ψ<sub>BA+C</sub> − Ψ<sub>BA+sham</sub></span>
+ <b>D(t) = ‖ R<sub>AB</sub>(t) − R<sub>BA</sub>(t) ‖</b></div>
+ <div class="controls">
+  <label>Defect world <select id="memorySeed"><option value="single">One +1 vortex</option><option value="pair">+1 / −1 vortex pair</option><option value="quartet">Four defects</option></select></label>
+  <label>Silence after AB/BA <span id="waitVal">70</span> steps<input id="wait" type="range" min="20" max="220" step="10" value="70"></label>
+  <label>Clock coupling κ <span id="memoryClockVal">12</span><input id="memoryClock" type="range" min="0" max="40" step="2" value="12"></label>
+  <button class="run" id="memoryBtn">▶ Interrogate four worlds</button>
+ </div>
+ <div class="status" id="memoryStatus">Linear vacuum, nonlinear vacuum, uniform-clock defect, and graded-clock defect will face the same AB/BA test.</div>
+ <div class="graph-card"><div class="graph-title">Difference in response to C, through time <small>Near-core region. Absolute RMS of sham-subtracted difference.</small></div>
+  <canvas id="memoryGraph" width="1000" height="280"></canvas>
+  <div class="legend"><span style="--col:#b8b9c8">Linear vacuum</span><span style="--col:#f0c27a">Nonlinear vacuum</span><span style="--col:#7bcfea">Uniform-clock defect</span><span style="--col:#a69df6">Graded-clock defect</span></div>
+ </div>
+ <div class="results-table"><table><thead><tr><th>WORLD</th><th>HISTORY STATE Δ</th><th>CORE RESPONSE RATIO</th><th>FAR RESPONSE RATIO</th></tr></thead><tbody id="memoryRows"><tr><td colspan="4">No results yet. Test the worlds to see what actually survives.</td></tr></tbody></table></div>
+ <div class="interpretation" id="memoryInterpretation"><b>What counts:</b> The linear control should vanish after sham subtraction. A nonlinear vacuum may already carry history, so a vortex must outperform that control before we credit the defect. A graded clock must outperform the same defect with uniform clocks to claim a gain.</div>
+ <p class="caveat"><b>Measurement caveat:</b> these are single deterministic trajectories, not trained readers, statistical trials or proof of internal particle memory. We compare both near-core and far-field regions to avoid quietly declaring every lingering wave an internal clock.</p>
+</section>
+<section id="answer" class="chapter conclusion">
+ <span class="chapter-no">03 / THE ANSWER, SUBJECT TO EVIDENCE</span>
+ <h2>Identity is what remains when the picture changes.</h2>
+ <div class="principles">
+ <article><span>01 — INVARIANT</span><h3>It must have something to preserve.</h3><p>Winding is more reliable than brightness or color. A phase singularity can remain identifiable even as its surroundings deform. But pinned boundaries can enforce it.</p></article>
+ <article><span>02 — CAUSAL RESPONSE</span><h3>It must make a difference.</h3><p>Remove or change the history, then send the same probe. A stateful structure should cause a different, reproducible future response—not merely leave a prettier wake.</p></article>
+ <article><span>03 — ADVANTAGE</span><h3>It must beat simpler explanations.</h3><p>The vacuum is nonlinear too. Slower clocks can delay rather than improve a response. A new mechanism earns its place only when it adds something after matched controls.</p></article>
+ </div>
+ <div class="live-verdict" id="liveVerdict"><span>YOUR WORLD'S VERDICT</span><p>Run the experiments above. This conclusion will change according to the actual measured results.</p></div>
+ <blockquote>Perhaps a thing is not a clump of matter at all. Perhaps it is an organized constraint on what can happen next. That is a philosophical interpretation; the experiments above test only its measurable ingredients.</blockquote>
+ <p class="links">Why these tests? <a href="./THEORY.md">Read the equations</a> · <a href="./RESULTS.md">Read the first negative result</a> · <a href="./">Return to the live world</a></p>
+</section>
+<footer>ComplexClockfield · A fictional world with explicit mathematical laws · No claim of gravity, elementary particles, or Q-balls. Built to challenge its own metaphors.</footer>
+</div>
+<script type="module" src="./identity-app.mjs"></script>
+</body></html>
