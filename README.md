@@ -24,7 +24,7 @@ To run Node 18+ invariant tests: \`node --test tests/engine.test.mjs\`.
 
 ## Explore a world
 
-1. **Topology:** Start with a +1/−1 dipole, a single +1, a +2 candidate, four cores, or the uniform vacuum. These are initial conditions, not separate particle laws.
+1. **Topology:** Start with a +1/−1 dipole, a single +1, a resolved two-core net-+2 cluster, four cores, or the uniform vacuum. These are initial conditions, not separate particle laws.
 2. **Clockfield:** Compare uniform, structure-stamped, and structure-adaptive clocks. Stamped mode is the physically cleaner fixed-inertia control; live mode is explicitly phenomenological.
 3. **See the field:** Switch between complex phase/amplitude, amplitude alone, local clock, and gradient energy. Small ring markers indicate *measured phase winding*, not bright spots.
 4. **Disturb it:** A, B, C are equal-location momentum perturbations with different complex directions. Click the field for a pulse; Shift-click for B.
