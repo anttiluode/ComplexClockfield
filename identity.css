@@ -12,7 +12,7 @@ h1 em{font-style:normal;color:var(--cyan)}
 .answer{border-left:3px solid var(--gold);padding:13px 0 16px 25px;margin:42px 0 0;max-width:900px;background:linear-gradient(to right,#e5be7511,transparent)}
 .answer span,.live-verdict>span{font:11px ui-monospace,monospace;letter-spacing:.15em;color:var(--gold)}
 .answer p{font-size:19px;line-height:1.65;max-width:820px;margin:10px 0}.answer small{color:var(--muted);font-size:11px}
-.chapter-nav{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding-bottom:46px}
+.chapter-nav{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding-bottom:46px}
 .chapter-nav a{border:1px solid var(--line);border-radius:7px;padding:16px 18px;background:#101c29;color:var(--fg);font:11px ui-monospace,monospace;letter-spacing:.1em}
 .chapter-nav a:hover{background:#1a2a38;text-decoration:none;border-color:#61869c}
 .chapter-nav b{color:var(--gold);margin-right:12px}
@@ -75,3 +75,11 @@ blockquote{font:italic clamp(19px,2.3vw,27px)/1.5 Georgia,serif;color:#d4e5ed;ma
 footer{border-top:1px solid var(--line);text-align:center;padding:22px 0 35px;color:var(--muted);font:11px/1.8 ui-monospace,monospace}
 @media(max-width:960px){.controls{grid-template-columns:repeat(2,1fr)}button.run{grid-column:1/-1}.metrics{grid-template-columns:repeat(2,1fr)}.graph-title{flex-direction:column}}
 @media(max-width:680px){.site{padding:0 12px}.top{flex-wrap:wrap}.top>span{order:3;width:100%}.hero{padding:50px 0}.answer p{font-size:16px}.chapter-nav{grid-template-columns:1fr;padding-bottom:20px}.chapter{padding:39px 0 50px}.chapter-head p{font-size:15px}.two-worlds{grid-template-columns:1fr}.sequence{grid-template-columns:1fr}.principles{grid-template-columns:1fr}.controls{grid-template-columns:1fr}.graph-title{font-size:10px}.metrics strong{font-size:17px}}
+
+.transplant-diagram{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0}
+.transplant-diagram>div{background:#142638;border:1px solid #34566a;border-radius:8px;padding:16px;display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.transplant-diagram small{width:100%;color:var(--muted);font:10px ui-monospace,monospace;letter-spacing:.12em}
+.transplant-diagram b{font:13px ui-monospace,monospace;color:#c7e5f2;padding:5px 8px;border-radius:5px;background:#1d4255}
+.transplant-diagram b.donor{color:#f8d7ab;background:#5f4033}
+.transplant-diagram i{color:var(--gold)}
+@media(max-width:680px){.transplant-diagram{grid-template-columns:1fr}.chapter-nav{grid-template-columns:1fr 1fr}}
