@@ -3,7 +3,7 @@ const $=id=>document.getElementById(id);
 const view=$("field"),ctx=view.getContext("2d",{alpha:false});
 const trace=$("trace"),tctx=trace.getContext("2d");
 let sim=new Field(112),playing=true,busy=false,frame=0,lastDraw=0,history=[],benchData=[];
-const labels={pair:"Vortex + antivortex",single:"Pinned +1 vortex",double:"Double winding (+2)",quartet:"Four interacting defects",vacuum:"Symmetry-broken vacuum"};
+const labels={pair:"Vortex + antivortex",single:"Pinned +1 vortex",double:"Two nearby +1 cores (net +2)",quartet:"Four interacting defects",vacuum:"Symmetry-broken vacuum"};
 const img=ctx.createImageData(view.width,view.height);
 function clamp(x,a=0,b=1){return Math.max(a,Math.min(b,x));}
 function rgb(h,s,v){
@@ -58,8 +58,9 @@ function sample(){
   const cs=sim.defects(),p=cs.filter(q=>q.q>0),m=cs.filter(q=>q.q<0);
   $("windingValue").textContent=p.length+" / "+m.length;
   $("clockValue").textContent=minSpeed.toFixed(3)+"×";
-  $("energyValue").textContent=sim.energy().total.toFixed(2);
-  $("chargeValue").textContent=sim.energy().charge.toFixed(3);
+  const e=sim.energy();
+  $("energyValue").textContent=e.total.toFixed(2);
+  $("chargeValue").textContent=e.charge.toFixed(3);
 }
 function drawTrace(){
   const w=trace.width,h=trace.height;
