@@ -12,15 +12,15 @@ The earlier PhiWorld visualized peaks in a **real** scalar field. Here the state
 
 To run locally:
 
-\`\`\`bash
+```bash
 git clone https://github.com/anttiluode/ComplexClockfield.git
 cd ComplexClockfield
 python -m http.server 8000
-\`\`\`
+```
 
-Open http://localhost:8000/ in a browser. ES modules generally require an HTTP server instead of \`file://\`.
+Open http://localhost:8000/ in a browser. ES modules generally require an HTTP server instead of `file://`.
 
-To run Node 18+ invariant tests: \`node --test tests/engine.test.mjs\`.
+To run Node 18+ invariant tests: `node --test tests/engine.test.mjs`.
 
 ## Explore a world
 
@@ -54,11 +54,11 @@ A separate energy-derived nonlinear bond force controls propagation; the nine-po
 
 ## Files
 
-- \`index.html\`, \`style.css\`: self-contained lab UI
-- \`app.mjs\`: rendering, diagnostics, interactive probes, AB/BA and controls
-- \`engine.mjs\`: reusable complex-field finite-difference engine
-- \`tests/engine.test.mjs\`: headless invariants and negative controls
-- \`THEORY.md\`: equations, assumptions, and experimental kill conditions
+- `index.html`, `style.css`: self-contained lab UI
+- `app.mjs`: rendering, diagnostics, interactive probes, AB/BA and controls
+- `engine.mjs`: reusable complex-field finite-difference engine
+- `tests/engine.test.mjs`: headless invariants and negative controls
+- `THEORY.md`: equations, assumptions, and experimental kill conditions
 
 ## Research direction
 
