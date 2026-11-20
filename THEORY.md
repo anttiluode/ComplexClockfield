@@ -17,7 +17,7 @@ The vacuum manifold is the circle \(|\Psi|=1\). A winding defect has integer cha
 n={1\over 2\pi}\oint d\theta.
 \]
 
-On the grid, winding is **measured**, not assigned: sum wrapped phase differences along plaquettes. A +1 and −1 pair carries zero net winding. A +2 initialization is not guaranteed to remain a single object; it may split.
+On the grid, winding is **measured**, not assigned: sum wrapped phase differences along plaquettes. A +1 and −1 pair carries zero net winding. The UI charge-2 preset deliberately places **two nearby +1 vortices** rather than one mathematically singular +2 core: a single-cell phase sampling cannot resolve a 4π winding and can create spurious detected charges. This is a resolved charge-2 *cluster*, not evidence that a single n=2 core has split.
 
 The original phiworld2.py instead had a *real* scalar field with \(V'(\phi)=-a\phi+b\phi^3\). Its red markers were local maxima of \(|\phi|\), not verified vortices.
 
