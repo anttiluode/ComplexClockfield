@@ -12,6 +12,11 @@ test("+1 winding is measured by plaquettes, not seeded labels",()=>{
   const w=new Field(40);w.reset("single");
   assert.equal(w.defects().reduce((s,p)=>s+p.q,0),1);
 });
+test("resolved double has exactly two positive unit defects",()=>{
+  const w=new Field(64);w.reset("double");
+  assert.equal(w.defects().reduce((s,p)=>s+p.q,0),2);
+  assert.equal(w.defects().filter(p=>p.q>0).length,2);
+});
 test("+1 / -1 pair has zero net winding",()=>{
   const w=new Field(40);w.reset("pair");
   assert.equal(w.defects().reduce((s,p)=>s+p.q,0),0);
