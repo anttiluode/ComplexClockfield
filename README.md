@@ -6,6 +6,12 @@ An interactive browser laboratory for the November 20, 2026 collision of PhiWorl
 
 The earlier PhiWorld visualized peaks in a **real** scalar field. Here the state is \(\Psi=u+iv\) with genuine phase winding, and the simulation detects + and − topological charges by phase integration around grid plaquettes.
 
+## The question that became an experiment
+
+**[What makes a thing? — interactive survival, history, and core-transplant laboratory](https://anttiluode.github.io/ComplexClockfield/identity.html)**
+
+It asks whether a field defect persists, whether AB versus BA changes the response to a new probe C, and whether that response comes from the local defect or the surrounding soup. **The first measurements are mostly negative for a vortex-specific memory advantage.** Read the fully reproducible [identity report](IDENTITY.md), or run `node scripts/identity.mjs`.
+
 ## Start
 
 **[Open the browser lab](https://anttiluode.github.io/ComplexClockfield/)** once GitHub Pages is enabled for this repository (Settings → Pages → Deploy from branch → main / root). No Python, GPU, webcam, or external JS dependencies.
