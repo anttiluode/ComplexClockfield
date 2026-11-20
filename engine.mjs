@@ -35,7 +35,7 @@ export class Field {
     const lumps=[];
     if(kind==="pair") lumps.push([mid-R/2,mid,1],[mid+R/2,mid,-1]);
     if(kind==="single") lumps.push([mid,mid,1]);
-    if(kind==="double") lumps.push([mid,mid,2]);
+    if(kind==="double") lumps.push([mid-2.75,mid,1],[mid+2.75,mid,1]); // resolved net +2; one exact n=2 core aliases on a plaquette
     if(kind==="quartet") lumps.push([mid-R,mid-R,1],[mid+R,mid-R,-1],[mid-R,mid+R,-1],[mid+R,mid+R,1]);
     for(let y=0;y<n;y++) for(let x=0;x<n;x++){
       let phase=0,rho=1;
