@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#090e19">
+<title>ComplexClockfield — Worlds Within Defects</title>
+<link rel="stylesheet" href="./style.css">
+</head><body>
+<div class="shell">
+<header class="mast">
+ <div><div class="eyebrow">PHIWORLD / CLOCKFIELD / RAJAPINTA</div>
+ <h1>COMPLEX<span>CLOCKFIELD</span></h1>
+ <p>A field where structure bends the local clock. <b>No pre-labeled particles.</b></p></div>
+ <div class="mast-right"><span id="runningBadge" class="live">● RUNNING</span>
+ <a href="https://github.com/anttiluode/ComplexClockfield" target="_blank" rel="noopener">Source ↗</a></div>
+</header>
+<main class="layout">
+ <section class="stage">
+  <div class="stagebar"><span>01 / COMPLEX SCALAR FIELD</span><span id="topologyLabel">Vortex + antivortex</span></div>
+  <div class="canvas-wrap">
+   <canvas id="field" width="112" height="112" aria-label="Animated complex-field phase map"></canvas>
+   <div class="canvas-legend"><span class="positive">● + winding</span><span class="negative">● − winding</span><span class="subtle">Click to inject a pulse</span></div>
+  </div>
+  <div class="readouts">
+   <div><small>TIME / STEPS</small><strong id="timeValue">0.0</strong></div>
+   <div><small>DEFECTS (+ / −)</small><strong id="windingValue">—</strong></div>
+   <div><small>MIN LOCAL CLOCK</small><strong id="clockValue">—</strong></div>
+   <div><small>ENERGY</small><strong id="energyValue">—</strong></div>
+   <div><small>NOETHER CHARGE</small><strong id="chargeValue">—</strong></div>
+  </div>
+  <div class="stage-footer">
+   <div class="buttonline">
+    <button id="toggle" class="primary">⏸ Pause</button>
+    <button id="step">Step +1</button>
+    <button id="reset">↺ Reset</button>
+    <button id="kickA">Pulse A</button>
+    <button id="kickB">Pulse B</button>
+    <button id="kickC">Probe C</button>
+    <button id="savePng">Save image</button>
+   </div>
+   <p id="stageStatus" class="hint">A complex field obeying a nonlinear wave equation, with pinned outer boundaries.</p>
+  </div>
+  <div class="tracebox"><div class="section-head">02 / TIME TRACE <small>Core amplitude (cyan) / mean slow factor (orange)</small></div>
+   <canvas id="trace" width="900" height="135"></canvas></div>
+ </section>
+ <aside class="rack">
+  <section class="panel"><div class="section-head">INITIAL TOPOLOGY <small>same laws, different winding</small></div>
+   <div class="presets">
+    <button class="preset selected" data-seed="pair"><b>+1 / −1</b><small>Vortex pair</small></button>
+    <button class="preset" data-seed="single"><b>+1</b><small>Pinned defect</small></button>
+    <button class="preset" data-seed="double"><b>+2</b><small>Can it split?</small></button>
+    <button class="preset" data-seed="quartet"><b>4 cores</b><small>Defect interactions</small></button>
+    <button class="preset" data-seed="vacuum"><b>Vacuum</b><small>No defects</small></button>
+   </div>
+  </section>
+  <section class="panel"><div class="section-head">CLOCKFIELD <small>effective mass, not gravity</small></div>
+   <div class="rowline"><label for="clockMode">Clock source</label>
+   <select id="clockMode"><option value="stamped">Structure / static</option><option value="live">Structure / adaptive</option><option value="uniform">Uniform control</option></select></div>
+   <label class="sliderline">Clockfield coupling κ <output id="clockStrengthVal">12</output><input id="clockStrength" type="range" min="0" max="45" value="12" step="1"></label>
+   <div class="explain">Mass m(x)=1+κ|∇Ψ|², local clock Γ=1/√m. Static mode fixes m from the seed; adaptive mode changes it as the field evolves (not energy-conserving).</div>
+  </section>
+  <section class="panel"><div class="section-head">FIELD MECHANICS <small>change one coefficient at a time</small></div>
+   <label class="sliderline">Gradient softness <output id="gradSoftVal">0.15</output><input id="gradSoft" type="range" min="0" max="3" value="0.15" step="0.05"></label>
+   <label class="sliderline">Mexican-hat λ <output id="lambdaVal">0.23</output><input id="lambda" type="range" min="0.04" max="0.8" value="0.23" step="0.01"></label>
+   <label class="sliderline">Biharmonic γ <output id="bendingVal">0.008</output><input id="bending" type="range" min="0" max="0.10" value="0.008" step="0.002"></label>
+   <label class="sliderline">Damping η <output id="dampingVal">0.012</output><input id="damping" type="range" min="0" max="0.12" value="0.012" step="0.002"></label>
+   <label class="sliderline">Pulse strength <output id="pulseVal">0.32</output><input id="pulse" type="range" min="0.04" max="1" value="0.32" step="0.02"></label>
+   <div class="rowline"><label for="view">Render</label><select id="view"><option value="phase">Phase + amplitude</option><option value="density">Amplitude |Ψ|</option><option value="clock">Local clock Γ</option><option value="twist">Gradient energy</option></select></div>
+   <label class="check"><input id="showCores" type="checkbox" checked>Show detected winding (plaquette integral)</label>
+  </section>
+  <section class="panel bench"><div class="section-head">03 / AB–BA INTERROGATION <small>the object must answer a question</small></div>
+   <p>Give identical initial worlds A then B, or B then A. Wait. Fork each history into <i>C-probed</i> and <i>unprobed</i> futures. Compare only the difference caused by C.</p>
+   <div class="eqbox">R<sub>AB</sub> = Ψ<sub>AB+C</sub> − Ψ<sub>AB+sham</sub><br>
+   R<sub>BA</sub> = Ψ<sub>BA+C</sub> − Ψ<sub>BA+sham</sub><br>
+   <b>D<sub>probe</sub> = ||R<sub>AB</sub> − R<sub>BA</sub>||</b></div>
+   <div class="buttonline"><button id="runBench" class="primary">Run matched controls</button><button id="csvBench" disabled>Download CSV</button></div>
+   <div id="benchProgress" class="hint">Deterministic first-pass measurement; no success assumed.</div>
+   <div class="table-scroll"><table><thead><tr><th>World</th><th>Clock</th><th>D<sub>state</sub></th><th>D<sub>probe</sub></th><th>Rel.</th></tr></thead><tbody id="benchRows"><tr><td colspan="5">Press Run matched controls.</td></tr></tbody></table></div>
+   <p class="hint">The linear vacuum is a negative control: its probe response should not depend on AB versus BA. A nonzero result alone is not evidence of useful memory or computation.</p>
+  </section>
+  <section class="panel"><div class="section-head">04 / FALSIFICATION <small>make the machine prove itself</small></div>
+   <div class="buttonline"><button id="runTests">Run invariant checks</button><button id="copyConfig">Copy settings</button></div>
+   <pre id="testsOutput" class="test-output">No checks run yet.</pre>
+  </section>
+ </aside>
+</main>
+<footer>The field is complex; the claims are not. Built as a falsifiable numerical laboratory. Read <a href="./THEORY.md">THEORY.md</a> before calling any bright dot a particle.</footer>
+</div>
+<script type="module" src="./app.mjs"></script>
+</body></html>
