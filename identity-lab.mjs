@@ -204,6 +204,7 @@ export async function memoryExperiment(settings={},update=null) {
 // A smooth blending window swaps complex field AND conjugate momenta near the core.
 export function transplant(recipient, donor, fraction=.17) {
   if(recipient.n!==donor.n)throw new Error("Transplant worlds must share a grid.");
+  if(recipient===donor)return recipient.clone(); // exact identity surgery control
   const out=recipient.clone(),n=out.n;
   const radius=Math.max(2,n*fraction),inner=radius*.70;
   for(let y=1;y<n-1;y++)for(let x=1;x<n-1;x++){
@@ -230,6 +231,10 @@ export async function localityExperiment(settings={},update=null) {
     const ba=await historyBranch(opts,condition,"BA");
     const swapAB=transplant(ab,ba,opts.radius??.17);
     const swapBA=transplant(ba,ab,opts.radius??.17);
+    const beforeAB=totals(ab),beforeBA=totals(ba);
+    const afterH1=totals(swapAB),afterH2=totals(swapBA);
+    const windingCountsPreserved=beforeAB.plus===afterH1.plus && beforeAB.minus===afterH1.minus &&
+      beforeBA.plus===afterH2.plus && beforeBA.minus===afterH2.minus;
     const fields={AB:ab,BA:ba,ABwithBAcore:swapAB,BAwithABcore:swapBA};
     const forks={};
     for(const [name,w] of Object.entries(fields)){
@@ -272,6 +277,8 @@ export async function localityExperiment(settings={},update=null) {
     });
     results.push({id:condition.id,label:condition.label,
       baseline:Math.sqrt(baselinePower),
+      windingCountsPreserved,
+      beforeCharges:[beforeAB.charge,beforeBA.charge],afterCharges:[afterH1.charge,afterH2.charge],
       swappedAB:ratio(sums.ABwithBAcore),
       swappedBA:ratio(sums.BAwithABcore),
       trace});
