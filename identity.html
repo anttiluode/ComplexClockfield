@@ -22,7 +22,8 @@
 <nav class="chapter-nav">
   <a href="#survival"><b>01</b> SURVIVE <small>Does the defect remain?</small></a>
   <a href="#memory"><b>02</b> REMEMBER <small>Does the past matter?</small></a>
-  <a href="#answer"><b>03</b> ANSWER <small>What did we learn?</small></a>
+  <a href="#locality"><b>03</b> LOCATE <small>Where is the history?</small></a>
+  <a href="#answer"><b>04</b> ANSWER <small>What did we learn?</small></a>
 </nav>
 <section id="survival" class="chapter">
  <div class="chapter-head"><span class="chapter-no">01 / SURVIVE</span><h2>Deform it. Does it remain itself?</h2>
@@ -71,8 +72,30 @@
  <div class="interpretation" id="memoryInterpretation"><b>What counts:</b> The linear control should vanish after sham subtraction. A nonlinear vacuum may already carry history, so a vortex must outperform that control before we credit the defect. A graded clock must outperform the same defect with uniform clocks to claim a gain.</div>
  <p class="caveat"><b>Measurement caveat:</b> these are single deterministic trajectories, not trained readers, statistical trials or proof of internal particle memory. We compare both near-core and far-field regions to avoid quietly declaring every lingering wave an internal clock.</p>
 </section>
+
+<section id="locality" class="chapter">
+ <div class="chapter-head"><span class="chapter-no">03 / LOCATE</span><h2>Does memory live in the core, or in the soup?</h2>
+ <p>Now comes a more dangerous question. Take two worlds with different histories and <b>exchange the field around a central defect</b>. Keep each world's exterior. Fire the same probe C at all of them. Does the transplanted world respond more like its original history or the donor of its core?</p></div>
+ <div class="transplant-diagram">
+  <div><small>WORLD AB</small><b>AB outside</b><i> + </i><b class="donor">BA core</b><small>Hybrid 1</small></div>
+  <div><small>WORLD BA</small><b>BA outside</b><i> + </i><b class="donor">AB core</b><small>Hybrid 2</small></div>
+ </div>
+ <div class="controls">
+  <label>Defect world <select id="localitySeed"><option value="single">One +1 vortex</option><option value="pair">Vortex–antivortex pair</option></select></label>
+  <label>Swap radius <span id="localityRadiusVal">17%</span><input id="localityRadius" type="range" min=".12" max=".30" step=".01" value=".17"></label>
+  <label>Blank period <span id="localityWaitVal">70</span> steps<input id="localityWait" type="range" min="20" max="220" step="10" value="70"></label>
+  <button class="run" id="localityBtn">▶ Transplant the history</button>
+ </div>
+ <div class="status" id="localityStatus">Two history pairs, two swaps, probe and sham forks: nothing will be labeled as internal memory in advance.</div>
+ <div class="graph-card"><div class="graph-title">After swap: response distance from recipient versus donor <small>Solid: defect world · Dashed: vacuum control. Integrated near-core response distances.</small></div>
+  <canvas id="localityGraph" width="1000" height="210"></canvas>
+ </div>
+ <div class="results-table"><table><thead><tr><th>WORLD</th><th>BASE AB≠BA</th><th>AB EXTERIOR / BA CORE</th><th>BA EXTERIOR / AB CORE</th></tr></thead><tbody id="localityRows"><tr><td colspan="4">Run the surgery with both the defect and vacuum controls.</td></tr></tbody></table></div>
+ <div class="interpretation" id="localityInterpretation"><b>How to read it:</b> “Donor-like” means the next probe response more closely resembles the transplanted core's source history. If the vacuum behaves the same way, the effect is not unique to vortex memory.</div>
+ <p class="caveat"><b>Surgery caveat:</b> this operation is deliberately artificial. It blends both complex field values and momenta inside a tapered circle. The cut can generate waves and violate the original dynamical trajectory. It is a causal intervention, not a physical particle transfer or proof of where information exclusively resides.</p>
+</section>
 <section id="answer" class="chapter conclusion">
- <span class="chapter-no">03 / THE ANSWER, SUBJECT TO EVIDENCE</span>
+ <span class="chapter-no">04 / THE ANSWER, SUBJECT TO EVIDENCE</span>
  <h2>Identity is what remains when the picture changes.</h2>
  <div class="principles">
  <article><span>01 — INVARIANT</span><h3>It must have something to preserve.</h3><p>Winding is more reliable than brightness or color. A phase singularity can remain identifiable even as its surroundings deform. But pinned boundaries can enforce it.</p></article>
